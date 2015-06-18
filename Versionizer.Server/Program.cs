@@ -5,14 +5,14 @@ namespace Versionizer.Server
     public static class Program
     {
         [STAThread]
-        public static void Main()
+        public static void Main(string[] args)
         {
             Host host = new Host();
 
             try
             {
                 host.Start();
-                Console.WriteLine("Listening...");
+                Console.WriteLine("Press any key to exit...");
                 Console.ReadKey();
                 host.Stop();
             }
