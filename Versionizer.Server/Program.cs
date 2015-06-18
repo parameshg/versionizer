@@ -1,4 +1,5 @@
 ﻿using System;
+using Topshelf;
 
 namespace Versionizer.Server
 {
@@ -7,20 +8,12 @@ namespace Versionizer.Server
         [STAThread]
         public static void Main(string[] args)
         {
-            Host host = new Host();
-
-            try
+            HostFactory.Run(i =>
             {
-                host.Start();
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
-                host.Stop();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                Console.ReadKey();
-            }
+                i.Service<Host>();
+                i.SetServiceName("Versionizer");
+                i.SetDisplayName("Versionizer");
+            });
         }
     }
 }
