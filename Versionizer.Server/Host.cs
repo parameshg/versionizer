@@ -27,23 +27,13 @@ namespace Versionizer.Server
 
             try
             {
-                Uri url = new Uri(string.Format("http://localhost:{0}/versionizer", Port));
+                _host = new ServiceHost(typeof(Api));
 
-                _host = new ServiceHost(typeof(Api), url);
-
-                _host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
-
-                _host.Description.Behaviors.Add(new ServiceDiscoveryBehavior());
-
-                _host.AddServiceEndpoint(typeof(IApi), new BasicHttpBinding(), string.Empty);
+                _host.AddServiceEndpoint(typeof(IApi), new NetTcpBinding(), new Uri(string.Format("net.tcp://localhost:{0}/versionizer", Port)));
 
                 _host.AddServiceEndpoint(new UdpDiscoveryEndpoint());
 
-                EndpointDiscoveryBehavior o = new EndpointDiscoveryBehavior() { Enabled = true };
-
-                o.Scopes.Add(new Uri("http://versionizer/"));
-
-                _host.Description.Endpoints[0].Behaviors.Add(o);
+                _host.Description.Behaviors.Add(new ServiceDiscoveryBehavior());
 
                 _host.Open();
 

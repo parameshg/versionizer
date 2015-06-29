@@ -11,7 +11,7 @@ namespace Versionizer.Server
 
         public Api()
         {
-            _repository = new XmlRepository();
+            _repository = new SqliteRepository();
         }
 
         public List<AssemblyInfo> List()

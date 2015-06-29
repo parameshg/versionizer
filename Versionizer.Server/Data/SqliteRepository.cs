@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.IO;
 using Versionizer.Shared;
 
 namespace Versionizer.Server.Data
@@ -12,7 +13,7 @@ namespace Versionizer.Server.Data
 
         public SqliteRepository()
         {
-            
+            _connection = string.Format("Data Source={0}", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "versionizer.db;"));
         } 
 
         public List<AssemblyInfo> List()
@@ -31,7 +32,7 @@ namespace Versionizer.Server.Data
                     
                     o.ID = Guid.Parse(i["ID"].ToString());
                     o.Name = i["Name"].ToString();
-                    o.Title = i["Title"].ToString();
+                    o.Project = i["Project"].ToString();
                     o.Description = i["Description"].ToString();
                     o.Configuration = i["Configuration"].ToString();
                     o.Company = i["Company"].ToString();
@@ -62,8 +63,8 @@ namespace Versionizer.Server.Data
                 {
                     result.ID = Guid.Parse(i["ID"].ToString());
                     result.Name = i["Name"].ToString();
-                    result.Title = i["Title"].ToString();
                     result.Description = i["Description"].ToString();
+                    result.Project = i["Project"].ToString();
                     result.Configuration = i["Configuration"].ToString();
                     result.Company = i["Company"].ToString();
                     result.Product = i["Product"].ToString();
@@ -81,14 +82,14 @@ namespace Versionizer.Server.Data
 
         public void Create(AssemblyInfo o)
         {
-            ExecuteNonQuery(string.Format("INSERT INTO AssemblyInfo(ID, Name, Title, Description, Configuration, Company, Product, Copyright, Trademark, Culture, Version, FileVersion, ComVisibility) VALUES('{0}', {1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}'",
-                o.ID.ToString(), o.Name, o.Title, o.Description, o.Configuration, o.Company, o.Product, o.Copyright, o.Trademark, o.Culture, o.Version, o.FileVersion, o.ComVisibility));
+            ExecuteNonQuery(string.Format("INSERT INTO AssemblyInfo(ID, Name, Description, Project, Configuration, Company, Product, Copyright, Trademark, Culture, Version, FileVersion, ComVisibility) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}')",
+                o.ID.ToString(), o.Name, o.Description, o.Project, o.Configuration, o.Company, o.Product, o.Copyright, o.Trademark, o.Culture, o.Version, o.FileVersion, o.ComVisibility));
         }
 
         public void Update(AssemblyInfo o)
         {
-            ExecuteNonQuery(string.Format("UPDATE AssemblyInfo SET Name = '{0}', Title = '{1}', Description = '{2}', Configuration = '{3}', Company = '{4}', Product = '{5}', Copyright = '{6}', Trademark = '{7}', Culture = '{8}', Version = '{9}', FileVersion = '{10}', ComVisibility = '{11}' WHERE ID = '{12}'", 
-                o.Name, o.Title, o.Description, o.Configuration, o.Company, o.Product, o.Copyright, o.Trademark, o.Culture, o.Version, o.FileVersion, o.ComVisibility, o.ID.ToString()));
+            ExecuteNonQuery(string.Format("UPDATE AssemblyInfo SET Name = '{0}', Description = '{1}', Project = '{2}', Configuration = '{3}', Company = '{4}', Product = '{5}', Copyright = '{6}', Trademark = '{7}', Culture = '{8}', Version = '{9}', FileVersion = '{10}', ComVisibility = '{11}' WHERE ID = '{12}'",
+                o.Name, o.Description, o.Project, o.Configuration, o.Company, o.Product, o.Copyright, o.Trademark, o.Culture, o.Version, o.FileVersion, o.ComVisibility, o.ID.ToString()));
         }
 
         public void Delete(Guid id)

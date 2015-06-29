@@ -13,23 +13,24 @@ namespace Versionizer.Shared
 
         public Api()
         {
-            DiscoveryClient discovery = new DiscoveryClient(new UdpDiscoveryEndpoint());
+            FindResponse search = null;
 
-            FindCriteria search = FindCriteria.CreateMetadataExchangeEndpointCriteria(typeof(IApi));
-            search.Scopes.Add(new Uri("http://versionizer/"));
-            search.MaxResults = 1;
-            
-            FindResponse response = discovery.Find(search);
-
-            if (response != null)
+            using (DiscoveryClient discovery = new DiscoveryClient(new UdpDiscoveryEndpoint()))
             {
-                if (response.Endpoints != null)
+                FindCriteria filter = new FindCriteria(typeof(IApi));
+
+                filter.MaxResults = 1;
+
+                search = discovery.Find(filter);
+            }
+
+            if (search != null)
+            {
+                if (search.Endpoints != null)
                 {
-                    if (response.Endpoints.Count.Equals(1))
+                    if (search.Endpoints.Count.Equals(1))
                     {
-                        ServiceEndpointCollection endpoints = MetadataResolver.Resolve(typeof(IApi), response.Endpoints[0].Address);
-                        
-                        ChannelFactory<IApi> factory = new ChannelFactory<IApi>(endpoints[0].Binding, endpoints[0].Address);
+                        ChannelFactory<IApi> factory = new ChannelFactory<IApi>(new NetTcpBinding(), search.Endpoints[0].Address);
 
                         _api = factory.CreateChannel();
                     }

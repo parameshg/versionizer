@@ -8,9 +8,9 @@ namespace Versionizer.Shared
 
         public string Name { get; set; }
 
-        public string Title { get; set; }
-
         public string Description { get; set; }
+
+        public string Project { get; set; }
 
         public string Configuration { get; set; }
 

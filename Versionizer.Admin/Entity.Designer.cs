@@ -37,8 +37,8 @@
             this.txtCulture = new System.Windows.Forms.TextBox();
             this.gbCopyright = new System.Windows.Forms.GroupBox();
             this.txtCopyright = new System.Windows.Forms.TextBox();
-            this.gbTitle = new System.Windows.Forms.GroupBox();
-            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.gbProject = new System.Windows.Forms.GroupBox();
+            this.txtProject = new System.Windows.Forms.TextBox();
             this.gbName = new System.Windows.Forms.GroupBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.gbDescription = new System.Windows.Forms.GroupBox();
@@ -64,7 +64,7 @@
             this.gbTrademark.SuspendLayout();
             this.gbCulture.SuspendLayout();
             this.gbCopyright.SuspendLayout();
-            this.gbTitle.SuspendLayout();
+            this.gbProject.SuspendLayout();
             this.gbName.SuspendLayout();
             this.gbDescription.SuspendLayout();
             this.gbCompany.SuspendLayout();
@@ -86,7 +86,7 @@
             this.tlpMain.Controls.Add(this.gbTrademark, 1, 5);
             this.tlpMain.Controls.Add(this.gbCulture, 1, 4);
             this.tlpMain.Controls.Add(this.gbCopyright, 1, 3);
-            this.tlpMain.Controls.Add(this.gbTitle, 1, 1);
+            this.tlpMain.Controls.Add(this.gbProject, 1, 1);
             this.tlpMain.Controls.Add(this.gbName, 0, 1);
             this.tlpMain.Controls.Add(this.gbDescription, 0, 2);
             this.tlpMain.Controls.Add(this.gbCompany, 0, 3);
@@ -187,24 +187,24 @@
             this.txtCopyright.Size = new System.Drawing.Size(284, 20);
             this.txtCopyright.TabIndex = 4;
             // 
-            // gbTitle
+            // gbProject
             // 
-            this.gbTitle.Controls.Add(this.txtTitle);
-            this.gbTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTitle.Location = new System.Drawing.Point(299, 53);
-            this.gbTitle.Name = "gbTitle";
-            this.gbTitle.Size = new System.Drawing.Size(290, 44);
-            this.gbTitle.TabIndex = 2;
-            this.gbTitle.TabStop = false;
-            this.gbTitle.Text = "Title";
+            this.gbProject.Controls.Add(this.txtProject);
+            this.gbProject.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbProject.Location = new System.Drawing.Point(299, 53);
+            this.gbProject.Name = "gbProject";
+            this.gbProject.Size = new System.Drawing.Size(290, 44);
+            this.gbProject.TabIndex = 2;
+            this.gbProject.TabStop = false;
+            this.gbProject.Text = "Project";
             // 
-            // txtTitle
+            // txtProject
             // 
-            this.txtTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTitle.Location = new System.Drawing.Point(3, 16);
-            this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(284, 20);
-            this.txtTitle.TabIndex = 2;
+            this.txtProject.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtProject.Location = new System.Drawing.Point(3, 16);
+            this.txtProject.Name = "txtProject";
+            this.txtProject.Size = new System.Drawing.Size(284, 20);
+            this.txtProject.TabIndex = 2;
             // 
             // gbName
             // 
@@ -215,7 +215,7 @@
             this.gbName.Size = new System.Drawing.Size(290, 44);
             this.gbName.TabIndex = 1;
             this.gbName.TabStop = false;
-            this.gbName.Text = "Project Name";
+            this.gbName.Text = "Name";
             // 
             // txtName
             // 
@@ -447,8 +447,8 @@
             this.gbCulture.PerformLayout();
             this.gbCopyright.ResumeLayout(false);
             this.gbCopyright.PerformLayout();
-            this.gbTitle.ResumeLayout(false);
-            this.gbTitle.PerformLayout();
+            this.gbProject.ResumeLayout(false);
+            this.gbProject.PerformLayout();
             this.gbName.ResumeLayout(false);
             this.gbName.PerformLayout();
             this.gbDescription.ResumeLayout(false);
@@ -474,7 +474,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.GroupBox gbID;
-        private System.Windows.Forms.GroupBox gbTitle;
+        private System.Windows.Forms.GroupBox gbProject;
         private System.Windows.Forms.GroupBox gbName;
         private System.Windows.Forms.GroupBox gbDescription;
         private System.Windows.Forms.GroupBox gbCulture;
@@ -494,7 +494,7 @@
         private System.Windows.Forms.TextBox txtTrademark;
         private System.Windows.Forms.TextBox txtCulture;
         private System.Windows.Forms.TextBox txtCopyright;
-        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.TextBox txtProject;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.TextBox txtCompany;

@@ -24,10 +24,10 @@ namespace Versionizer.Admin
         {
             if (AssemblyInfo != null)
             {
-                AssemblyInfo.ID = Guid.Parse(txtID.Text);
+                txtID.Text = AssemblyInfo.ID.ToString();
                 txtName.Text = AssemblyInfo.Name;
-                txtTitle.Text = AssemblyInfo.Title;
                 txtDescription.Text = AssemblyInfo.Description;
+                txtProject.Text = AssemblyInfo.Project;
                 txtConfiguration.Text = AssemblyInfo.Configuration;
                 txtCompany.Text = AssemblyInfo.Company;
                 txtProduct.Text = AssemblyInfo.Product;
@@ -42,10 +42,11 @@ namespace Versionizer.Admin
 
         private void OnAccept(object sender, EventArgs e)
         {
+            AssemblyInfo = new Shared.AssemblyInfo();
             AssemblyInfo.ID = Guid.Parse(txtID.Text);
             AssemblyInfo.Name = txtName.Text;
-            AssemblyInfo.Title = txtTitle.Text;
             AssemblyInfo.Description = txtDescription.Text;
+            AssemblyInfo.Project = txtProject.Text;
             AssemblyInfo.Configuration = txtConfiguration.Text;
             AssemblyInfo.Company = txtCompany.Text;
             AssemblyInfo.Product = txtProduct.Text;
@@ -56,11 +57,13 @@ namespace Versionizer.Admin
             AssemblyInfo.FileVersion = txtFileVersion.Text;
             AssemblyInfo.ComVisibility = bool.Parse(cbComVisibility.SelectedItem.ToString());
 
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void OnCancel(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
     }
