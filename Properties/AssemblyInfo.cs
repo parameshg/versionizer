@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Versionizer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Versionizer is a configuration management command-line tool developed using C# .NET for editing AssemblyInfo files of Microsoft .NET projects.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("paramg.com")]
 [assembly: AssemblyProduct("Versionizer")]
-[assembly: AssemblyCopyright("")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Paramesh Gunasekaran")]
+[assembly: AssemblyTrademark("Versionizer")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
 [assembly: ComVisible(false)]
-[assembly: Guid("DCDE30CD-CCEB-4E31-A83F-F189D5139493")]
+[assembly: Guid("dcde30cd-cceb-4e31-a83f-f189d5139493")]

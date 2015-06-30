@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using NDesk.Options;
 
 namespace Versionizer
 {
@@ -10,237 +10,40 @@ namespace Versionizer
         {
             try
             {
-                #region Variables
+                OptionSet o = new OptionSet();
 
-                string filename         = string.Empty;
-                string title            = string.Empty;
-                string description      = string.Empty;
-                string configuration    = string.Empty;
-                string company          = string.Empty;
-                string product          = string.Empty;
-                string copyright        = string.Empty;
-                string trademark        = string.Empty;
-                string culture          = string.Empty;
-                string version          = string.Empty;
-                string guid             = string.Empty;
-                string com              = string.Empty;
+                Updater x = new Updater();
 
-                #endregion
+                o.Add<string>("source=", "Path to AssemblyInfo.cs", i => { x.Filename = i; });
+                o.Add<string>("title=", "AssemblyTitle", i => { x.Title = i; });
+                o.Add<string>("description=", "AssemblyDescription", i => { x.Description = i; });
+                o.Add<string>("configuration=", "AssemblyConfiguration", i => { x.Configuration = i; });
+                o.Add<string>("company=", "AssemblyCompany", i => { x.Company = i; });
+                o.Add<string>("product=", "AssemblyProduct", i => { x.Product = i; });
+                o.Add<string>("copyright=", "AssemblyCopyright", i => { x.Copyright = i; });
+                o.Add<string>("trademark=", "AssemblyTrademark", i => { x.Trademark = i; });
+                o.Add<string>("culture=", "AssemblyCulture", i => { x.Culture = i; });
+                o.Add<string>("version=", "AssemblyVersion", i => { x.Version = i; });
+                o.Add<Guid>("id=", "AssemblyGuid", i => { x.ID = i; });
+                o.Add<bool>("com=", "ComVisibility", i => { x.ComVisibility = i; });
+                o.Add("!", "Disables fetching configuration settings from server", i => { x.Disabled = false; });
+                o.Add("?", "Shows Usage Help", i => { Help(); });
 
-                if (args.Length % 2 == 0)
-                {
-                    for (int i = 0; i < args.Length; i++)
-                    {
-                        if (args[i].StartsWith("-") || args[i].StartsWith("/"))
-                        {
-                            args[i] = args[i].Remove(0, 1);
+                o.Parse(args);
 
-                            #region Read Args
+                x.Load();
 
-                            if (args[i].Equals("source"))
-                            {
-                                filename = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("title"))
-                            {
-                                title = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("description"))
-                            {
-                                description = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("configuration"))
-                            {
-                                configuration = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("company"))
-                            {
-                                company = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("product"))
-                            {
-                                product = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("copyright"))
-                            {
-                                copyright = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("trademark"))
-                            {
-                                trademark = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("culture"))
-                            {
-                                culture = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("version"))
-                            {
-                                version = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("com"))
-                            {
-                                com = args[++i];
-                                continue;
-                            }
-
-                            if (args[i].Equals("guid"))
-                            {
-                                guid = args[++i];
-                                continue;
-                            }
-
-                            #endregion
-                        }
-                    }
-                
-                    string text = string.Empty;
-
-                    using (StreamReader reader = new StreamReader(filename))
-                        text = reader.ReadToEnd();
-
-                    #region Regular Expressions
-
-                    // AssemblyTitle
-
-                    if (!string.IsNullOrEmpty(title))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyTitle([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyTitle(\"{0}\")]", title));
-                    }
-
-                    // AssemblyDescription
-
-                    if (!string.IsNullOrEmpty(description))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyDescription([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyDescription(\"{0}\")]", description));
-                    }
-
-                    // AssemblyConfiguration
-
-                    if (!string.IsNullOrEmpty(configuration))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyConfiguration([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyConfiguration(\"{0}\")]", configuration));
-                    }
-
-                    // AssemblyCompany
-
-                    if (!string.IsNullOrEmpty(company))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyCompany([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyCompany(\"{0}\")]", company));
-                    }
-
-                    // AssemblyProduct
-
-                    if (!string.IsNullOrEmpty(product))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyProduct([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyProduct(\"{0}\")]", product));
-                    }
-
-                    // AssemblyCopyright
-
-                    if (!string.IsNullOrEmpty(copyright))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyCopyright([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyCopyright(\"{0}\")]", copyright));
-                    }
-
-                    // AssemblyTrademark
-
-                    if (!string.IsNullOrEmpty(trademark))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyTrademark([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyTrademark(\"{0}\")]", trademark));
-                    }
-
-                    // AssemblyCulture
-
-                    if (!string.IsNullOrEmpty(culture))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyCulture([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: AssemblyCulture(\"{0}\")]", culture));
-                    }
-
-                    // AssemblyVersion
-
-                    if (!string.IsNullOrEmpty(version))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyVersion([(])\"[0-9]*.[0-9]*.[0-9]*.[0-9]*\"([)]])", RegexOptions.IgnoreCase))
-                        {
-                            foreach (Match x in Regex.Matches(i.Value, "([0-9]*)([.])([0-9]*)([.])([0-9]*)([.])([0-9]*)", RegexOptions.IgnoreCase))
-                                text = text.Replace(i.Value, string.Format("[assembly: AssemblyVersion(\"{0}\")]", UpdateVersion(x.Value, version)));
-                        }
-                    }
-
-                    // AssemblyFileVersion
-
-                    if (!string.IsNullOrEmpty(version))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: AssemblyFileVersion([(])\"[0-9]*.[0-9]*.[0-9]*.[0-9]*\"([)]])", RegexOptions.IgnoreCase))
-                        {
-                            foreach (Match x in Regex.Matches(i.Value, "([0-9]*)([.])([0-9]*)([.])([0-9]*)([.])([0-9]*)", RegexOptions.IgnoreCase))
-                                text = text.Replace(i.Value, string.Format("[assembly: AssemblyFileVersion(\"{0}\")]", UpdateVersion(x.Value, version)));
-                        }
-                    }
-
-                    // ComVisible
-
-                    if (!string.IsNullOrEmpty(com))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: ComVisible([(])\"[a-zA-Z]*\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: ComVisible(\"{0}\")]", com));
-                    }
-
-                    // Guid
-
-                    if (!string.IsNullOrEmpty(guid))
-                    {
-                        foreach (Match i in Regex.Matches(text, "([[])assembly: Guid([(])\"^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$\"([)]])", RegexOptions.IgnoreCase))
-                            text = text.Replace(i.Value, string.Format("[assembly: Guid(\"{0}\")]", guid));
-                    }
-
-                    #endregion
-
-                    using (StreamWriter writer = new StreamWriter(filename))
-                        writer.Write(text);
-                }
-                else
-                    DisplayHelp();
+                x.Execute();
             }
             catch(Exception e)
             {
-                Console.WriteLine(string.Empty);
-
                 Console.WriteLine(e.Message);
 
-                DisplayHelp();
+                Help();
             }
         }
 
-        private static void DisplayHelp()
+        private static void Help()
         {
             Console.WriteLine(string.Empty);
 
@@ -256,78 +59,6 @@ namespace Versionizer
             Console.WriteLine("com [true|false]");
 
             Console.WriteLine(string.Empty);
-        }
-
-        private static string UpdateVersion(string version, string pattern)
-        {
-            string result = string.Empty;
-
-            try
-            {
-                string[] param = version.Split('.');
-
-                int major = int.Parse(param[0]);
-                int minor = int.Parse(param[1]);
-                int build = int.Parse(param[2]);
-                int revision = int.Parse(param[3]);
-
-                string[] args = pattern.Split('.');
-
-                if (!args[0].Equals("*"))
-                {
-                    if (args[0].Equals("+"))
-                        major++;
-                    else if (args[0].Equals("-"))
-                        major--;
-                    else
-                        major = int.Parse(args[0]);
-                }
-
-                if (!args[1].Equals("*"))
-                {
-                    if (args[1].Equals("+"))
-                        minor++;
-                    else if (args[1].Equals("-"))
-                        minor--;
-                    else
-                        minor = int.Parse(args[1]);
-                }
-
-                if (!args[2].Equals("*"))
-                {
-                    if (args[2].Equals("+"))
-                        build++;
-                    else if (args[2].Equals("-"))
-                        build--;
-                    else if (args[2].Equals("h"))
-                        build = int.Parse(DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString());
-                    else if (args[2].Equals("d"))
-                        build = int.Parse(DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString());
-                    else
-                        build = int.Parse(args[2]);
-                }
-
-                if (!args[3].Equals("*"))
-                {
-                    if (args[3].Equals("+"))
-                        revision++;
-                    else if (args[3].Equals("-"))
-                        revision--;
-                    else if (args[3].Equals("h"))
-                        revision = int.Parse(DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString());
-                    else if (args[3].Equals("d"))
-                        revision = int.Parse(DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString());
-                    else
-                        revision = int.Parse(args[3]);
-                }
-
-                result = string.Format("{0}.{1}.{2}.{3}", major.ToString(), minor.ToString(), build.ToString(), revision.ToString());
-            }
-            catch
-            {
-            }
-
-            return result;
         }
     }
 }
