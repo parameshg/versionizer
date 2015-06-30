@@ -17,7 +17,7 @@ namespace Versionizer.Server
         {
             get
             {
-                return 8080;
+                return new Random(DateTime.Now.Millisecond).Next(1025, 65535);
             }
         }
 
