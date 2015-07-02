@@ -6,6 +6,7 @@ using Versionizer.Server.Data;
 using System.ServiceModel.Discovery;
 using System.ServiceModel.Channels;
 using Topshelf;
+using Versionizer.Server.Properties;
 
 namespace Versionizer.Server
 {
@@ -15,10 +16,7 @@ namespace Versionizer.Server
 
         private int Port
         {
-            get
-            {
-                return new Random(DateTime.Now.Millisecond).Next(1025, 65535);
-            }
+            get { return Settings.Default.Port.Equals(0) ? new Random(DateTime.Now.Millisecond).Next(1025, 65535) : Settings.Default.Port; }
         }
 
         public bool Start(HostControl host)
