@@ -97,11 +97,13 @@ namespace Versionizer
         {
             if (File.Exists(Filename))
             {
+                string any = @":*;*,*.*\d*\w*\s*";
+
                 // AssemblyTitle
 
                 if (!string.IsNullOrEmpty(Title))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyTitle([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyTitle([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyTitle(\"{0}\")]", Title));
                 }
 
@@ -109,7 +111,7 @@ namespace Versionizer
 
                 if (!string.IsNullOrEmpty(Description))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyDescription([(])\":*;*,*.*\\d*\\w*\\s*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyDescription([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyDescription(\"{0}\")]", Description));
                 }
 
@@ -117,7 +119,7 @@ namespace Versionizer
 
                 if (!string.IsNullOrEmpty(Configuration))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyConfiguration([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyConfiguration([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyConfiguration(\"{0}\")]", Configuration));
                 }
 
@@ -125,7 +127,7 @@ namespace Versionizer
 
                 if (!string.IsNullOrEmpty(Company))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyCompany([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyCompany([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyCompany(\"{0}\")]", Company));
                 }
 
@@ -133,7 +135,7 @@ namespace Versionizer
 
                 if (!string.IsNullOrEmpty(Product))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyProduct([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyProduct([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyProduct(\"{0}\")]", Product));
                 }
 
@@ -141,7 +143,7 @@ namespace Versionizer
 
                 if (!string.IsNullOrEmpty(Copyright))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyCopyright([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyCopyright([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyCopyright(\"{0}\")]", Copyright));
                 }
 
@@ -149,7 +151,7 @@ namespace Versionizer
 
                 if (!string.IsNullOrEmpty(Trademark))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyTrademark([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyTrademark([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyTrademark(\"{0}\")]", Trademark));
                 }
 
@@ -157,7 +159,7 @@ namespace Versionizer
 
                 if (!string.IsNullOrEmpty(Culture))
                 {
-                    foreach (Match i in Regex.Matches(Text, "([[])assembly: AssemblyCulture([(])\"[0-9a-zA-Z ]*\"([)]])", RegexOptions.IgnoreCase))
+                    foreach (Match i in Regex.Matches(Text, string.Format("([[])assembly: AssemblyCulture([(])\"{0}\"([)]])", any), RegexOptions.IgnoreCase))
                         Text = Text.Replace(i.Value, string.Format("[assembly: AssemblyCulture(\"{0}\")]", Culture));
                 }
 

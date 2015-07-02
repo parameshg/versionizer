@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Versionizer")]
-[assembly: AssemblyDescription("Versionizer is a configuration management command-line tool developed using C# .NET for editing AssemblyInfo files of Microsoft .NET projects.")]
+[assembly: AssemblyDescription("Versionizer is a configuration management command-line tool developed using C# .NET for editing AssemblyInfo files of Microsoft .NET projects.3")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("paramg.com")]
 [assembly: AssemblyProduct("Versionizer")]
